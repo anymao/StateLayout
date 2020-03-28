@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="utf-8"?>
+<resources>
+    <dimen name="sl_internal_padding">16dp</dimen>
+    <dimen name="sl_internal_margin">10dp</dimen>
+    <dimen name="sl_internal_state_image_width">100dp</dimen>
+    <dimen name="sl_internal_state_image_height">100dp</dimen>
+    <dimen name="sl_internal_progressbar_width">50dp</dimen>
+    <dimen name="sl_internal_progressbar_height">50dp</dimen>
+    <dimen name="sl_internal_text_size">8dp</dimen>
+</resources>
