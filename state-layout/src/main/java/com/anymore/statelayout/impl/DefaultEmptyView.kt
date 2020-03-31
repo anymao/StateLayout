@@ -35,10 +35,19 @@ class DefaultEmptyView @JvmOverloads constructor(
     private lateinit var mParentLayout: StateLayout
 
     init {
+        val ta =
+            context.obtainStyledAttributes(attrs, R.styleable.DefaultEmptyView, defStyleAttr, 0)
+        val emptyMessage = ta.getString(R.styleable.DefaultEmptyView_emptyMessage)
+            ?: context.getString(R.string.sl_internal_no_data)
+        val emptyIconId = ta.getResourceId(
+            R.styleable.DefaultEmptyView_emptyIcon,
+            R.drawable.sl_internal_icon_empty
+        )
+        ta.recycle()
         orientation = VERTICAL
         gravity = Gravity.CENTER
         ivEmptyIcon = ImageView(context)
-        setEmptyIcon(R.drawable.sl_internal_icon_empty)
+        setEmptyIcon(emptyIconId)
         ivEmptyIcon.setOnClickListener {
             if (this::mParentLayout.isInitialized) {
                 mOnIconClickListener?.onClick(mParentLayout)
@@ -47,7 +56,7 @@ class DefaultEmptyView @JvmOverloads constructor(
             }
         }
         tvEmptyMsg = TextView(context)
-        setEmptyMessage(context.getString(R.string.sl_internal_no_data))
+        setEmptyMessage(emptyMessage)
         tvEmptyMsg.setTextColor(ContextCompat.getColor(context, R.color.sl_internal_color))
         tvEmptyMsg.setTextSize(
             TypedValue.COMPLEX_UNIT_SP,

@@ -1,14 +1,35 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
     <declare-styleable name="StateLayout" tools:ignore="ResourceName">
-        <attr name="emptyLayout" format="reference"/>
-        <attr name="loadingLayout" format="reference"/>
-        <attr name="errorLayout" format="reference"/>
+        <attr name="emptyLayout" format="reference" />
+        <attr name="loadingLayout" format="reference" />
+        <attr name="errorLayout" format="reference" />
         <attr name="state" format="enum">
-            <enum name="empty" value="1"/>
-            <enum name="loading" value="2"/>
-            <enum name="error" value="3"/>
-            <enum name="content" value="4"/>
+            <enum name="empty" value="1" />
+            <enum name="loading" value="2" />
+            <enum name="error" value="3" />
+            <enum name="content" value="4" />
         </attr>
     </declare-styleable>
+
+    <attr name="emptyIcon" format="reference" tools:ignore="ResourceName" />
+    <attr name="emptyMessage" format="string" tools:ignore="ResourceName" />
+    <attr name="errorIcon" format="reference" tools:ignore="ResourceName" />
+    <attr name="errorMessage" format="string" tools:ignore="ResourceName" />
+    <attr name="loadingMessage" format="string" tools:ignore="ResourceName" />
+
+    <declare-styleable name="DefaultEmptyView" tools:ignore="ResourceName">
+        <attr name="emptyIcon" />
+        <attr name="emptyMessage" />
+    </declare-styleable>
+
+    <declare-styleable name="DefaultErrorView" tools:ignore="ResourceName">
+        <attr name="errorIcon" />
+        <attr name="errorMessage" />
+    </declare-styleable>
+
+    <declare-styleable name="DefaultLoadingView" tools:ignore="ResourceName">
+        <attr name="loadingMessage" />
+    </declare-styleable>
+
 </resources>

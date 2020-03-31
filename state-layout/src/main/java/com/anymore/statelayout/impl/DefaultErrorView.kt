@@ -35,10 +35,19 @@ class DefaultErrorView @JvmOverloads constructor(
     private lateinit var mParentLayout: StateLayout
 
     init {
+        val ta =
+            context.obtainStyledAttributes(attrs, R.styleable.DefaultErrorView, defStyleAttr, 0)
+        val errorMessage = ta.getString(R.styleable.DefaultErrorView_errorMessage)
+            ?: context.getString(R.string.sl_internal_load_error)
+        val errorIconId = ta.getResourceId(
+            R.styleable.DefaultErrorView_errorIcon,
+            R.drawable.sl_internal_icon_error
+        )
+        ta.recycle()
         orientation = VERTICAL
         gravity = Gravity.CENTER
         ivErrorIcon = ImageView(context)
-        setErrorIcon(R.drawable.sl_internal_icon_error)
+        setErrorIcon(errorIconId)
         ivErrorIcon.setOnClickListener {
             if (this::mParentLayout.isInitialized) {
                 mOnIconClickListener?.onClick(mParentLayout)
@@ -47,7 +56,7 @@ class DefaultErrorView @JvmOverloads constructor(
             }
         }
         tvErrorMsg = TextView(context)
-        setErrorMessage(context.getString(R.string.sl_internal_load_error))
+        setErrorMessage(errorMessage)
         tvErrorMsg.setTextColor(ContextCompat.getColor(context, R.color.sl_internal_color))
         tvErrorMsg.setTextSize(
             TypedValue.COMPLEX_UNIT_SP,
