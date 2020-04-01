@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources xmlns:tools="http://schemas.android.com/tools">
+
+    <attr name="emptyIcon" format="reference" tools:ignore="ResourceName" />
+    <attr name="emptyMessage" format="string" tools:ignore="ResourceName" />
+    <attr name="errorIcon" format="reference" tools:ignore="ResourceName" />
+    <attr name="errorMessage" format="string" tools:ignore="ResourceName" />
+    <attr name="loadingMessage" format="string" tools:ignore="ResourceName" />
+
     <declare-styleable name="StateLayout" tools:ignore="ResourceName">
         <attr name="emptyLayout" format="reference" />
         <attr name="loadingLayout" format="reference" />
@@ -12,11 +19,6 @@
         </attr>
     </declare-styleable>
 
-    <attr name="emptyIcon" format="reference" tools:ignore="ResourceName" />
-    <attr name="emptyMessage" format="string" tools:ignore="ResourceName" />
-    <attr name="errorIcon" format="reference" tools:ignore="ResourceName" />
-    <attr name="errorMessage" format="string" tools:ignore="ResourceName" />
-    <attr name="loadingMessage" format="string" tools:ignore="ResourceName" />
 
     <declare-styleable name="DefaultEmptyView" tools:ignore="ResourceName">
         <attr name="emptyIcon" />

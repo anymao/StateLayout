@@ -8,13 +8,15 @@ import android.view.View
 import android.widget.LinearLayout
 import android.widget.ProgressBar
 import android.widget.TextView
-import androidx.core.content.ContextCompat
+import androidx.core.graphics.drawable.DrawableCompat
 import com.anymore.statelayout.R
 import com.anymore.statelayout.StateLayout
 import com.anymore.statelayout.api.LoadingView
 import com.anymore.statelayout.creator.LoadingViewCreator
+import com.anymore.statelayout.exts.getColorCompatibly
 import com.anymore.statelayout.exts.getDimension
 import com.anymore.statelayout.exts.getDimensionPixelSize
+import com.anymore.statelayout.exts.getDrawableCompatibly
 
 /**
  * Created by anymore on 2020/3/28.
@@ -36,12 +38,14 @@ class DefaultLoadingView @JvmOverloads constructor(
         gravity = Gravity.CENTER
         pbLoading = ProgressBar(context)
         pbLoading.indeterminateDrawable =
-            ContextCompat.getDrawable(context, R.drawable.sl_internal_loading_anim)
+            context.getDrawableCompatibly(R.drawable.sl_internal_loading_anim)?.apply {
+                DrawableCompat.setTint(this, context.getColorCompatibly(R.color.sl_internal_color))
+            }
         tvLoadingMsg = TextView(context)
         setLoadingMessage(context.getString(R.string.sl_internal_loading))
-        tvLoadingMsg.setTextColor(ContextCompat.getColor(context, R.color.sl_internal_color))
+        tvLoadingMsg.setTextColor(context.getColorCompatibly(R.color.sl_internal_color))
         tvLoadingMsg.setTextSize(
-            TypedValue.COMPLEX_UNIT_SP,
+            TypedValue.COMPLEX_UNIT_PX,
             context.getDimension(R.dimen.sl_internal_text_size)
         )
         val params1 = LayoutParams(

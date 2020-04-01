@@ -1,6 +1,7 @@
 package com.anymore.statelayout.impl
 
 import android.content.Context
+import android.content.res.ColorStateList
 import android.util.AttributeSet
 import android.util.Log
 import android.util.TypedValue
@@ -9,12 +10,13 @@ import android.view.View
 import android.widget.ImageView
 import android.widget.LinearLayout
 import android.widget.TextView
-import androidx.core.content.ContextCompat
+import androidx.core.widget.ImageViewCompat
 import com.anymore.statelayout.R
 import com.anymore.statelayout.StateLayout
 import com.anymore.statelayout.api.ErrorView
 import com.anymore.statelayout.api.OnIconClickListener
 import com.anymore.statelayout.creator.ErrorViewCreator
+import com.anymore.statelayout.exts.getColorCompatibly
 import com.anymore.statelayout.exts.getDimension
 import com.anymore.statelayout.exts.getDimensionPixelSize
 
@@ -41,25 +43,30 @@ class DefaultErrorView @JvmOverloads constructor(
             ?: context.getString(R.string.sl_internal_load_error)
         val errorIconId = ta.getResourceId(
             R.styleable.DefaultErrorView_errorIcon,
-            R.drawable.sl_internal_icon_error
+            R.drawable.sl_internal_ic_error
         )
         ta.recycle()
         orientation = VERTICAL
         gravity = Gravity.CENTER
         ivErrorIcon = ImageView(context)
+        ImageViewCompat.setImageTintList(
+            ivErrorIcon,
+            ColorStateList.valueOf(context.getColorCompatibly(R.color.sl_internal_color))
+        )
         setErrorIcon(errorIconId)
         ivErrorIcon.setOnClickListener {
             if (this::mParentLayout.isInitialized) {
                 mOnIconClickListener?.onClick(mParentLayout)
             } else {
                 Log.w(TAG, "DefaultErrorView didn't attached StateLayout")
+                mOnIconClickListener?.onClick(null)
             }
         }
         tvErrorMsg = TextView(context)
         setErrorMessage(errorMessage)
-        tvErrorMsg.setTextColor(ContextCompat.getColor(context, R.color.sl_internal_color))
+        tvErrorMsg.setTextColor(context.getColorCompatibly(R.color.sl_internal_color))
         tvErrorMsg.setTextSize(
-            TypedValue.COMPLEX_UNIT_SP,
+            TypedValue.COMPLEX_UNIT_PX,
             context.getDimension(R.dimen.sl_internal_text_size)
         )
         val params1 = LayoutParams(
