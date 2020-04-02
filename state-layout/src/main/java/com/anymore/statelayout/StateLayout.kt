@@ -7,7 +7,6 @@ import android.view.Gravity
 import android.view.LayoutInflater
 import android.view.View
 import android.widget.FrameLayout
-import androidx.annotation.DrawableRes
 import androidx.annotation.IntDef
 import androidx.annotation.IntRange
 import androidx.annotation.LayoutRes
@@ -85,19 +84,19 @@ class StateLayout @JvmOverloads constructor(
         val loadingLayout = inflateStateView(loadingLayoutId)
         val errorLayout = inflateStateView(errorLayoutId)
         mEmptyView = when (emptyLayout) {
-            null -> globalEmptyViewCreator.create(context)
+            null -> globalEmptyViewCreator.create(context, this)
             is EmptyView -> emptyLayout
             else -> EmptyViewWrapper(emptyLayout)
         }
         mEmptyView.attach(this)
         mLoadingView = when (loadingLayout) {
-            null -> globalLoadingViewCreator.create(context)
+            null -> globalLoadingViewCreator.create(context, this)
             is LoadingView -> loadingLayout
             else -> LoadingViewWrapper(loadingLayout)
         }
         mLoadingView.attach(this)
         mErrorView = when (errorLayout) {
-            null -> globalErrorViewCreator.create(context)
+            null -> globalErrorViewCreator.create(context, this)
             is ErrorView -> errorLayout
             else -> ErrorViewWrapper(errorLayout)
         }
@@ -141,9 +140,9 @@ class StateLayout @JvmOverloads constructor(
     /**
      * 设置空布局提示语和资源，并且更新当前布局状态为[EMPTY]
      */
-    fun setEmptyState(message: String, @DrawableRes emptyIconId: Int = NOT_SET) {
+    fun setEmptyState(message: String, emptyIconId: Int = NOT_SET) {
         if (emptyIconId != NOT_SET) {
-            mEmptyView.setEmptyIcon(emptyIconId)
+            mEmptyView.setEmptyIconResource(emptyIconId)
         }
         mEmptyView.setEmptyMessage(message)
         setState(EMPTY)
@@ -152,9 +151,9 @@ class StateLayout @JvmOverloads constructor(
     /**
      * 设置错误布局提示语和资源，并且更新当前布局状态为[ERROR]
      */
-    fun setErrorState(message: String, @DrawableRes errorIconId: Int = NOT_SET) {
+    fun setErrorState(message: String, errorIconId: Int = NOT_SET) {
         if (errorIconId != NOT_SET) {
-            mErrorView.setErrorIcon(errorIconId)
+            mErrorView.setErrorIconResource(errorIconId)
         }
         mErrorView.setErrorMessage(message)
         setState(ERROR)

@@ -53,7 +53,7 @@ class DefaultErrorView @JvmOverloads constructor(
             ivErrorIcon,
             ColorStateList.valueOf(context.getColorCompatibly(R.color.sl_internal_color))
         )
-        setErrorIcon(errorIconId)
+        setErrorIconResource(errorIconId)
         ivErrorIcon.setOnClickListener {
             if (this::mParentLayout.isInitialized) {
                 mOnIconClickListener?.onClick(mParentLayout)
@@ -89,8 +89,8 @@ class DefaultErrorView @JvmOverloads constructor(
         tvErrorMsg.text = message
     }
 
-    override fun setErrorIcon(errorIconId: Int) {
-        ivErrorIcon.setImageResource(errorIconId)
+    override fun setErrorIconResource(errorIconResource: Int) {
+        ivErrorIcon.setImageResource(errorIconResource)
     }
 
     override fun setOnErrorIconClickListener(listener: OnIconClickListener) {
@@ -98,7 +98,8 @@ class DefaultErrorView @JvmOverloads constructor(
     }
 
     class Creator : ErrorViewCreator {
-        override fun create(context: Context): ErrorView = DefaultErrorView(context)
+        override fun create(context: Context, layout: StateLayout): ErrorView =
+            DefaultErrorView(context)
 
     }
 }

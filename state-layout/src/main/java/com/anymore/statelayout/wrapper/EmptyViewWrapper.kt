@@ -21,7 +21,7 @@ class EmptyViewWrapper(mRealView: View) : ViewWrapper(mRealView), EmptyView {
         Log.e(TAG, String.format(Locale.getDefault(), OP_MSG, "setEmptyMessage"))
     }
 
-    override fun setEmptyIcon(emptyIconId: Int) {
+    override fun setEmptyIconResource(emptyIconResource: Int) {
         Log.e(TAG, String.format(Locale.getDefault(), OP_MSG, "setEmptyIcon"))
     }
 

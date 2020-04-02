@@ -4,7 +4,7 @@
     android:id="@+id/stateLayout"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    app:state="content">
+    app:state="empty">
 
     <androidx.recyclerview.widget.RecyclerView
         android:id="@+id/rvList"

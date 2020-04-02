@@ -21,7 +21,7 @@ class ErrorViewWrapper(mRealView: View) : ViewWrapper(mRealView), ErrorView {
         Log.e(TAG, String.format(Locale.getDefault(), OP_MSG, "setErrorMessage"))
     }
 
-    override fun setErrorIcon(errorIconId: Int) {
+    override fun setErrorIconResource(errorIconResource: Int) {
         Log.e(TAG, String.format(Locale.getDefault(), OP_MSG, "setErrorIcon"))
     }
 

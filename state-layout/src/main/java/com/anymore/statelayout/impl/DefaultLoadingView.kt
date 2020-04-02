@@ -74,7 +74,8 @@ class DefaultLoadingView @JvmOverloads constructor(
     }
 
     class Creator : LoadingViewCreator {
-        override fun create(context: Context): LoadingView = DefaultLoadingView(context)
+        override fun create(context: Context, layout: StateLayout): LoadingView =
+            DefaultLoadingView(context)
 
     }
 }

@@ -55,7 +55,7 @@ class DefaultEmptyView @JvmOverloads constructor(
                 ColorStateList.valueOf(context.getColorCompatibly(R.color.sl_internal_color))
             )
         }
-        setEmptyIcon(emptyIconId)
+        setEmptyIconResource(emptyIconId)
         ivEmptyIcon.setOnClickListener {
             if (this::mParentLayout.isInitialized) {
                 mOnIconClickListener?.onClick(mParentLayout)
@@ -91,8 +91,8 @@ class DefaultEmptyView @JvmOverloads constructor(
         tvEmptyMsg.text = message
     }
 
-    override fun setEmptyIcon(emptyIconId: Int) {
-        ivEmptyIcon.setImageResource(emptyIconId)
+    override fun setEmptyIconResource(emptyIconResource: Int) {
+        ivEmptyIcon.setImageResource(emptyIconResource)
     }
 
     override fun setOnEmptyIconClickListener(listener: OnIconClickListener) {
@@ -100,7 +100,8 @@ class DefaultEmptyView @JvmOverloads constructor(
     }
 
     class Creator : EmptyViewCreator {
-        override fun create(context: Context): EmptyView = DefaultEmptyView(context)
+        override fun create(context: Context, layout: StateLayout): EmptyView =
+            DefaultEmptyView(context)
 
     }
 
