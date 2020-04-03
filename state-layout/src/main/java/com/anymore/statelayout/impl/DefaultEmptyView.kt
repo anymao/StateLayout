@@ -23,6 +23,7 @@ import com.anymore.statelayout.exts.getDimensionPixelSize
 import com.anymore.statelayout.exts.getDrawableCompatibly
 
 /**
+ * 默认空白视图
  * Created by anymore on 2020/3/28.
  */
 class DefaultEmptyView @JvmOverloads constructor(

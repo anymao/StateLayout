@@ -19,6 +19,7 @@ import com.anymore.statelayout.exts.getDimensionPixelSize
 import com.anymore.statelayout.exts.getDrawableCompatibly
 
 /**
+ * 默认加载中视图
  * Created by anymore on 2020/3/28.
  */
 class DefaultLoadingView @JvmOverloads constructor(

@@ -23,6 +23,7 @@ import com.anymore.statelayout.exts.getDimensionPixelSize
 import com.anymore.statelayout.exts.getDrawableCompatibly
 
 /**
+ * 默认错误视图
  * Created by anymore on 2020/3/28.
  */
 class DefaultErrorView @JvmOverloads constructor(

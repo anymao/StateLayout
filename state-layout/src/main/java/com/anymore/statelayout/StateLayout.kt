@@ -58,6 +58,10 @@ class StateLayout @JvmOverloads constructor(
     annotation class State
 
 
+    /**
+     * 三种状态视图和一个内容视图是层叠堆积的
+     * 从下至上为[0]EmptyView、[1]LoadingView、[2]ErrorView、[3]ContentView
+     */
     private var mEmptyView: EmptyView
     private var mLoadingView: LoadingView
     private var mErrorView: ErrorView
@@ -80,9 +84,9 @@ class StateLayout @JvmOverloads constructor(
         val errorLayoutId = ta.getResourceId(R.styleable.StateLayout_errorLayout, NOT_SET)
         mState = ta.getInteger(R.styleable.StateLayout_state, CONTENT)
         ta.recycle()
-        val emptyLayout = inflateStateView(emptyLayoutId)
-        val loadingLayout = inflateStateView(loadingLayoutId)
-        val errorLayout = inflateStateView(errorLayoutId)
+        val emptyLayout = inflateView(emptyLayoutId)
+        val loadingLayout = inflateView(loadingLayoutId)
+        val errorLayout = inflateView(errorLayoutId)
         mEmptyView = when (emptyLayout) {
             null -> globalEmptyViewCreator.create(context, this)
             is EmptyView -> emptyLayout
@@ -120,18 +124,65 @@ class StateLayout @JvmOverloads constructor(
                 mContentView = getChildAt(0)
             }
         }
+        addView(mErrorView.view(), 0, params)
+        addView(mLoadingView.view(), 0, params)
+        addView(mEmptyView.view(), 0, params)
+
+        mEmptyView.view().visibility = if (mState == EMPTY) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+        mLoadingView.view().visibility = if (mState == LOADING) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+        mErrorView.view().visibility = if (mState == ERROR) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
+        mContentView?.visibility = if (mState == CONTENT) {
+            View.VISIBLE
+        } else {
+            View.GONE
+        }
     }
 
     /**
      * 修正状态，在这里设置在xml中对于[StateLayout]设置的state属性
-     * 之前尝试将这一步骤放在[onFinishInflate]中，这样会导致，如果xml中设置的state不为[CONTENT]，在Activity中
-     * 获取不到内容布局.
+     * 之前尝试将这一步骤放在[onFinishInflate]中，这样会导致，如果
+     * xml中设置的state不为[CONTENT]，在Activity中获取不到内容布局.
      */
-    override fun onAttachedToWindow() {
-        super.onAttachedToWindow()
-        if (mState != CONTENT) {
-            showViewByState(mState)
+//    override fun onAttachedToWindow() {
+//        super.onAttachedToWindow()
+//        if (mState != CONTENT) {
+////            showViewByState(mState)
+//            switchViewState(CONTENT, mState)
+//        }
+//    }
+
+    /**
+     * 设置内容视图
+     */
+    fun setContentView(@LayoutRes id: Int) {
+        val view = inflateView(id)
+        view?.let { setContentView(it) }
+    }
+
+    /**
+     * 设置内容视图，
+     */
+    fun setContentView(view: View) {
+        mContentView?.let { removeView(it) }
+        mContentView = view
+        mContentView?.visibility = if (mState == CONTENT) {
+            View.VISIBLE
+        } else {
+            View.GONE
         }
+        addView(view)
     }
 
     /**
@@ -139,7 +190,8 @@ class StateLayout @JvmOverloads constructor(
      */
     fun setState(@State state: Int) {
         if (mState != state) {
-            showViewByState(state)
+//            showViewByState(state)
+            switchViewState(mState, state)
             mState = state
         }
     }
@@ -200,7 +252,7 @@ class StateLayout @JvmOverloads constructor(
 
     fun getLoadingView(): View = mLoadingView.view()
 
-    private fun inflateStateView(@LayoutRes layoutId: Int): View? {
+    private fun inflateView(@LayoutRes layoutId: Int): View? {
         return if (layoutId == NOT_SET) {
             null
         } else {
@@ -208,7 +260,37 @@ class StateLayout @JvmOverloads constructor(
         }
     }
 
+    /**
+     * 切换状态页面的展示与否:
+     * [preState]切换前的状态，
+     * [nextState]将要切换的下一个状态
+     */
+    private fun switchViewState(@State preState: Int, @State nextState: Int) {
+        //隐藏上一个状态
+        when (preState) {
+            EMPTY -> mEmptyView.view().visibility = View.GONE
+            LOADING -> mLoadingView.view().visibility = View.GONE
+            ERROR -> mErrorView.view().visibility = View.GONE
+            CONTENT -> mContentView?.visibility = View.GONE
+        }
+        //显示下一个状态
+        when (nextState) {
+            EMPTY -> mEmptyView.view().visibility = View.VISIBLE
+            LOADING -> mLoadingView.view().visibility = View.VISIBLE
+            ERROR -> mErrorView.view().visibility = View.VISIBLE
+            CONTENT -> mContentView?.visibility = View.VISIBLE
+        }
+    }
 
+
+    /**
+     * 这个是之前用于切换视图的方法，但是这个切换方法是存在问题的，之前我想的是[StateLayout]
+     * 是一个单Child的ViewGroup，在切换的时候将非选择状态对应视图进行移除，但是这样存在一个严重问题是
+     * 在[StateLayout.findViewById]的时候，非显示状态的视图，获取不到视图中的view控件，所以来说，
+     * 所有的状态视图和内容视图必须都是[StateLayout]的子View，而通过[View.setVisibility]来控制状态页面
+     * 和内容页面的显示与否
+     */
+    @Deprecated(message = "切换视图的方法，但是有问题，不能使用")
     private fun showViewByState(@State target: Int) {
         if (childCount > 0) {
             removeAllViews()
