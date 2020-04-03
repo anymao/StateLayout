@@ -1,6 +1,19 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.anymore.statelayout.StateLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/stateLayout"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    app:emptyLayout="@layout/layout_empty_page"
+    app:errorLayout="@layout/layout_error_page"
+    app:loadingLayout="@layout/layout_loading_page"
+    app:state="content">
+
+    <TextView
+        android:id="@+id/tvText"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:text="Hello"
+        android:gravity="center"/>
 
 </com.anymore.statelayout.StateLayout>

@@ -120,6 +120,15 @@ class StateLayout @JvmOverloads constructor(
                 mContentView = getChildAt(0)
             }
         }
+    }
+
+    /**
+     * 修正状态，在这里设置在xml中对于[StateLayout]设置的state属性
+     * 之前尝试将这一步骤放在[onFinishInflate]中，这样会导致，如果xml中设置的state不为[CONTENT]，在Activity中
+     * 获取不到内容布局.
+     */
+    override fun onAttachedToWindow() {
+        super.onAttachedToWindow()
         if (mState != CONTENT) {
             showViewByState(mState)
         }
@@ -135,6 +144,9 @@ class StateLayout @JvmOverloads constructor(
         }
     }
 
+    /**
+     * 获取当前状态
+     */
     fun getState(): Int = mState
 
     /**

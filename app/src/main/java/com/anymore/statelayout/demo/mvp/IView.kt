@@ -6,4 +6,5 @@ package com.anymore.statelayout.demo.mvp
 interface IView {
     fun showError(message: String)
     fun showData(list: List<String>)
+    fun showText(text: String?) {}
 }

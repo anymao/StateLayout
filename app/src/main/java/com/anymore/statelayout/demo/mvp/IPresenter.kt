@@ -5,5 +5,6 @@ package com.anymore.statelayout.demo.mvp
  */
 interface IPresenter {
     fun loadData()
+    fun loadText()
     fun destroy()
 }

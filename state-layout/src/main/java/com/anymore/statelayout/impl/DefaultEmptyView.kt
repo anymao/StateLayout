@@ -2,6 +2,7 @@ package com.anymore.statelayout.impl
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.util.Log
 import android.util.TypedValue
@@ -19,6 +20,7 @@ import com.anymore.statelayout.creator.EmptyViewCreator
 import com.anymore.statelayout.exts.getColorCompatibly
 import com.anymore.statelayout.exts.getDimension
 import com.anymore.statelayout.exts.getDimensionPixelSize
+import com.anymore.statelayout.exts.getDrawableCompatibly
 
 /**
  * Created by anymore on 2020/3/28.
@@ -34,7 +36,7 @@ class DefaultEmptyView @JvmOverloads constructor(
     private var ivEmptyIcon: ImageView
     private var tvEmptyMsg: TextView
     private var mOnIconClickListener: OnIconClickListener? = null
-    private lateinit var mParentLayout: StateLayout
+    private var mParentLayout: StateLayout? = null
 
     init {
         val ta =
@@ -57,12 +59,7 @@ class DefaultEmptyView @JvmOverloads constructor(
         }
         setEmptyIconResource(emptyIconId)
         ivEmptyIcon.setOnClickListener {
-            if (this::mParentLayout.isInitialized) {
-                mOnIconClickListener?.onClick(mParentLayout)
-            } else {
-                Log.w(TAG, "DefaultEmptyView didn't attached StateLayout")
-                mOnIconClickListener?.onClick(null)
-            }
+            mOnIconClickListener?.onClick(mParentLayout)
         }
         tvEmptyMsg = TextView(context)
         setEmptyMessage(emptyMessage)
@@ -92,7 +89,11 @@ class DefaultEmptyView @JvmOverloads constructor(
     }
 
     override fun setEmptyIconResource(emptyIconResource: Int) {
-        ivEmptyIcon.setImageResource(emptyIconResource)
+        setEmptyIconDrawable(context.getDrawableCompatibly(emptyIconResource))
+    }
+
+    override fun setEmptyIconDrawable(drawable: Drawable?) {
+        ivEmptyIcon.setImageDrawable(drawable)
     }
 
     override fun setOnEmptyIconClickListener(listener: OnIconClickListener) {

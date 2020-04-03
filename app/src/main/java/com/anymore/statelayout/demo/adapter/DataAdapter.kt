@@ -6,12 +6,16 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.recyclerview.widget.RecyclerView
 
+typealias OnItemClickListener = (Int, String) -> Unit
+
 /**
  * Created by anymore on 2020/4/1.
  */
 class DataAdapter : RecyclerView.Adapter<DataAdapter.ViewHolder>() {
 
     private val mData: MutableList<String> by lazy { mutableListOf<String>() }
+
+    var mOnItemClickListener: OnItemClickListener? = null
 
     fun setData(list: List<String>) {
         mData.clear()
@@ -29,6 +33,9 @@ class DataAdapter : RecyclerView.Adapter<DataAdapter.ViewHolder>() {
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
         holder.text.text = mData[position]
+        holder.itemView.setOnClickListener {
+            mOnItemClickListener?.invoke(position, mData[position])
+        }
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

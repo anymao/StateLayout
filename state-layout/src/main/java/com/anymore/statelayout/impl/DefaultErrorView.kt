@@ -2,6 +2,7 @@ package com.anymore.statelayout.impl
 
 import android.content.Context
 import android.content.res.ColorStateList
+import android.graphics.drawable.Drawable
 import android.util.AttributeSet
 import android.util.Log
 import android.util.TypedValue
@@ -19,6 +20,7 @@ import com.anymore.statelayout.creator.ErrorViewCreator
 import com.anymore.statelayout.exts.getColorCompatibly
 import com.anymore.statelayout.exts.getDimension
 import com.anymore.statelayout.exts.getDimensionPixelSize
+import com.anymore.statelayout.exts.getDrawableCompatibly
 
 /**
  * Created by anymore on 2020/3/28.
@@ -34,7 +36,7 @@ class DefaultErrorView @JvmOverloads constructor(
     private var ivErrorIcon: ImageView
     private var tvErrorMsg: TextView
     private var mOnIconClickListener: OnIconClickListener? = null
-    private lateinit var mParentLayout: StateLayout
+    private var mParentLayout: StateLayout? = null
 
     init {
         val ta =
@@ -55,12 +57,7 @@ class DefaultErrorView @JvmOverloads constructor(
         )
         setErrorIconResource(errorIconId)
         ivErrorIcon.setOnClickListener {
-            if (this::mParentLayout.isInitialized) {
-                mOnIconClickListener?.onClick(mParentLayout)
-            } else {
-                Log.w(TAG, "DefaultErrorView didn't attached StateLayout")
-                mOnIconClickListener?.onClick(null)
-            }
+            mOnIconClickListener?.onClick(mParentLayout)
         }
         tvErrorMsg = TextView(context)
         setErrorMessage(errorMessage)
@@ -90,7 +87,11 @@ class DefaultErrorView @JvmOverloads constructor(
     }
 
     override fun setErrorIconResource(errorIconResource: Int) {
-        ivErrorIcon.setImageResource(errorIconResource)
+        setErrorIconDrawable(context.getDrawableCompatibly(errorIconResource))
+    }
+
+    override fun setErrorIconDrawable(drawable: Drawable?) {
+        ivErrorIcon.setImageDrawable(drawable)
     }
 
     override fun setOnErrorIconClickListener(listener: OnIconClickListener) {

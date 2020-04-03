@@ -31,7 +31,7 @@ class DefaultLoadingView @JvmOverloads constructor(
 
     private var pbLoading: ProgressBar
     private var tvLoadingMsg: TextView
-    private lateinit var mParentLayout: StateLayout
+    private var mParentLayout: StateLayout? = null
 
     init {
         orientation = VERTICAL
