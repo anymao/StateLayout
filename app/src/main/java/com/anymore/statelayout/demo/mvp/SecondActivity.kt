@@ -2,13 +2,13 @@ package com.anymore.statelayout.demo.mvp
 
 import android.os.Bundle
 import androidx.appcompat.app.AppCompatActivity
-import com.anymore.statelayout.StateLayout
 import com.anymore.statelayout.StateLayout.Companion.CONTENT
 import com.anymore.statelayout.StateLayout.Companion.EMPTY
 import com.anymore.statelayout.StateLayout.Companion.LOADING
-import com.anymore.statelayout.api.OnIconClickListener
 import com.anymore.statelayout.demo.R
 import kotlinx.android.synthetic.main.activity_second.*
+import kotlinx.android.synthetic.main.layout_empty_page.*
+import kotlinx.android.synthetic.main.layout_error_page.*
 
 class SecondActivity : AppCompatActivity(), IView {
 
@@ -19,21 +19,15 @@ class SecondActivity : AppCompatActivity(), IView {
         setContentView(R.layout.activity_second)
         mPresenter = MockPresenter(this)
         mPresenter.loadText()
-//        tvText.text = "lym"
-//        stateLayout.setState(LOADING)
-        stateLayout.setOnErrorIconClickListener(object : OnIconClickListener {
-            override fun onClick(layout: StateLayout?) {
-                mPresenter.loadText()
-                stateLayout.setState(StateLayout.LOADING)
-            }
-        })
-        stateLayout.setOnEmptyIconClickListener(object : OnIconClickListener {
-            override fun onClick(layout: StateLayout?) {
-                mPresenter.loadText()
-                stateLayout.setState(StateLayout.LOADING)
-            }
-
-        })
+        stateLayout.setState(LOADING)
+        tvEmptyRetry.setOnClickListener {
+            mPresenter.loadText()
+            stateLayout.setState(LOADING)
+        }
+        tvErrorRetry.setOnClickListener {
+            mPresenter.loadText()
+            stateLayout.setState(LOADING)
+        }
     }
 
     override fun onDestroy() {

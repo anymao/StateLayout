@@ -6,6 +6,13 @@
     android:orientation="vertical">
 
     <TextView
+        android:id="@+id/tvEmptyRetry"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:text="点这里重试" />
+
+    <TextView
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="center"
